@@ -1,0 +1,34 @@
+{
+    "name": "api-clients/psr7-oauth1",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Cees-Jan Kiewiet",
+            "email": "ceesjank@gmail.com"
+        },
+        {
+            "name": "Beau Simensen",
+            "email": "beau@dflydev.com"
+        }
+    ],
+    "require": {
+        "php": "^7.0 || ^5.5",
+        "psr/http-message": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "ApiClients\\Tools\\Psr7\\Oauth1\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ApiClients\\Tests\\Tools\\Psr7\\Oauth1\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "platform": {
+            "php": "5.5.9"
+        }
+    }
+}
