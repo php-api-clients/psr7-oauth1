@@ -17,7 +17,8 @@
     },
     "require-dev": {
         "humbug/humbug": "1.0.0-alpha2",
-        "phpunit/phpunit": "^5.5 || ^4.8"
+        "phpunit/phpunit": "^5.5 || ^4.8",
+        "squizlabs/php_codesniffer": "^2.6"
     },
     "autoload": {
         "psr-4": {
