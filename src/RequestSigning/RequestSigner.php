@@ -131,7 +131,8 @@ class RequestSigner
     private function mergeSignatureParameter(RequestInterface $request, array $parameters)
     {
         $body = [];
-        if ($request->getMethod() === 'POST' && $request->getHeaderLine('Content-Type') === 'application/x-www-form-urlencoded') {
+        if ($request->getMethod() === 'POST' &&
+            $request->getHeaderLine('Content-Type') === 'application/x-www-form-urlencoded') {
             parse_str((string) $request->getBody(), $body);
         }
 
