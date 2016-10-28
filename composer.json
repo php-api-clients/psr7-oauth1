@@ -15,6 +15,11 @@
         "php": "^7.0 || ^5.5",
         "psr/http-message": "^1.0"
     },
+    "require-dev": {
+        "humbug/humbug": "1.0.0-alpha2",
+        "phpunit/phpunit": "^5.5 || ^4.8",
+        "squizlabs/php_codesniffer": "^2.6"
+    },
     "autoload": {
         "psr-4": {
             "ApiClients\\Tools\\Psr7\\Oauth1\\": "src/"
@@ -30,5 +35,41 @@
         "platform": {
             "php": "5.5.9"
         }
+    },
+    "scripts": {
+        "ensure-installed": "composer install --ansi -n -q",
+        "cs": [
+            "@ensure-installed",
+            "phpcs --standard=PSR2 src/"
+        ],
+        "unit": [
+            "@ensure-installed",
+            "phpunit --colors=always -c phpunit.xml.dist --coverage-text --coverage-html covHtml"
+        ],
+        "mutation": [
+            "@ensure-installed",
+            "if [ `php -m | grep xdebug | wc -l` -gt 0 ]; then humbug --ansi --incremental; fi"
+        ],
+        "qa-all": [
+            "@cs",
+            "@unit",
+            "@mutation"
+        ],
+        "qa-windows": [
+            "@cs",
+            "@unit"
+        ],
+        "qa-ci": [
+            "@qa-all"
+        ],
+        "qa-ci-windows": [
+            "@qa-windows"
+        ],
+        "qa-contrib": [
+            "@qa-all"
+        ],
+        "ci-coverage": [
+            "if [ -f ./build/logs/clover.xml ]; then wget https://scrutinizer-ci.com/ocular.phar && php ocular.phar code-coverage:upload --format=php-clover ./build/logs/clover.xml; fi"
+        ]
     }
 }
