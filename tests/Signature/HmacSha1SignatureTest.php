@@ -21,22 +21,22 @@ class HmacSha1SignatureTest extends \PHPUnit_Framework_TestCase
             [
                 new Uri('https://example.com/'),
                 'T7pWk5I7re3JTz5FS3LK8rVbQ0U=',
-                'T7pWk5I7re3JTz5FS3LK8rVbQ0U=',
+                'uRcxk5ukl+O0nSa9PgMEoIvOQ+M=',
             ],
             [
                 new Uri('https://example.com/thea.pot',[], 'THEAPOT'),
                 'XyTxyDmU2s3iBMBpSX4DbZ47Ltg=',
-                'XyTxyDmU2s3iBMBpSX4DbZ47Ltg=',
+                'H6aCWT5WcUlqw4/qXVm4tMjE7P0=',
             ],
             [
                 new Uri('https://example.com/?foo=bar', ['foo' => 'bar',]),
                 'OXZBqYIhLdj7CT6bYudGqc8OzlU=',
-                'OXZBqYIhLdj7CT6bYudGqc8OzlU=',
+                '3oA2qaA8dpQFdB8n0tyjrXLNvsg=',
             ],
             [
                 new Uri('https://example.com/',['foo' => 'bar',], 'HEAD'),
                 'T7pWk5I7re3JTz5FS3LK8rVbQ0U=',
-                'T7pWk5I7re3JTz5FS3LK8rVbQ0U=',
+                'uRcxk5ukl+O0nSa9PgMEoIvOQ+M=',
             ],
         ];
     }
@@ -52,7 +52,7 @@ class HmacSha1SignatureTest extends \PHPUnit_Framework_TestCase
         $signature = new HmacSha1Signature($secret);
         $tokenSecret = new TokenSecret('tokenSecret');
         $this->assertSame($signedSignature, $signature->sign($uri));
-        $signature->withTokenSecret($tokenSecret);
+        $signature = $signature->withTokenSecret($tokenSecret);
         $this->assertSame($signedTokenSecretSignature, $signature->sign($uri));
     }
 }
