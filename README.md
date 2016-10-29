@@ -32,7 +32,6 @@ $request = $requestSigner->withAccessToken(
 )->sign($request);
 ```
 
-
 # Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
