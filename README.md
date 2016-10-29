@@ -20,18 +20,24 @@ composer require api-clients/psr7-oauth1
 ```php
 <?php
 
+use ApiClients\Tools\Psr7\Oauth1\Definition;
+use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
+use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha1Signature;
+
+$consumerSecret = new Definition\ConsumerSecret('consumer_secret');
+
 $requestSigner = new RequestSigner(
-    new ConsumerKey('consumer_key'),
-    new ConsumerSecret('consumer_secret'),
-    new HmacSha1Signature(                      /**
-        new ConsumerSecret('consumer_secret')    * Optional, but allows for other than SHA1 signatures 
-    )                                            */
+    new Definition\ConsumerKey('consumer_key'),
+    $consumerSecret,
+    new HmacSha1Signature(/**
+        $consumerSecret    * Optional, but allows for other than HMAC SHA1 signatures 
+    )                      */
 );
 
 // Pass it a PSR-7 request and it returns a signed PSR7 request you can use in any PSR7 capable HTTP client.
 $request = $requestSigner->withAccessToken(
-    new AccessToken('token_key'),
-    new TokenSecret('token_secret')
+    new Definition\AccessToken('token_key'),
+    new Definition\TokenSecret('token_secret')
 )->sign($request);
 ```
 
