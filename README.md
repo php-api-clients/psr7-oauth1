@@ -25,7 +25,7 @@ $requestSigner = new RequestSigner(
     new ConsumerSecret('consumer_secret')
 );
 
-// Returns a signed PSR7 request you can use in any PSR7 capable HTTP client
+// Pass it a PSR-7 request and it returns a signed PSR7 request you can use in any PSR7 capable HTTP client.
 $request = $requestSigner->withAccessToken(
     new AccessToken('token_key'),
     new TokenSecret('token_secret')
