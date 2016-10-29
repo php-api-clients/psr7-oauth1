@@ -1,4 +1,4 @@
-# PSR-7 Oauth1 request signer
+# Client-side PSR-7 Oauth1 request signer
 
 [![Build Status](https://travis-ci.org/php-api-clients/psr7-oauth1.svg?branch=master)](https://travis-ci.org/php-api-clients/psr7-oauth1)
 [![Latest Stable Version](https://poser.pugx.org/api-clients/psr7-oauth1/v/stable.png)](https://packagist.org/packages/api-clients/psr7-oauth1)
