@@ -29,9 +29,9 @@ $consumerSecret = new Definition\ConsumerSecret('consumer_secret');
 $requestSigner = new RequestSigner(
     new Definition\ConsumerKey('consumer_key'),
     $consumerSecret,
-    new HmacSha1Signature(/**
-        $consumerSecret    * Optional, but allows for other than HMAC SHA1 signatures 
-    )                      */
+    new HmacSha1Signature( // Optional, but allows for other than HMAC SHA1 signatures
+        $consumerSecret  
+    )
 );
 
 // Pass it a PSR-7 request and it returns a signed PSR7 request you can use in any PSR7 capable HTTP client.
