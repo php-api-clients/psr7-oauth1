@@ -22,7 +22,10 @@ composer require api-clients/psr7-oauth1
 
 $requestSigner = new RequestSigner(
     new ConsumerKey('consumer_key'),
-    new ConsumerSecret('consumer_secret')
+    new ConsumerSecret('consumer_secret'),
+    new HmacSha1Signature(                      /**
+        new ConsumerSecret('consumer_secret')    * Optional, but allows for other than SHA1 signatures 
+    )                                            */
 );
 
 // Pass it a PSR-7 request and it returns a signed PSR7 request you can use in any PSR7 capable HTTP client.
