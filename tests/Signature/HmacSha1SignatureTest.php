@@ -54,5 +54,7 @@ class HmacSha1SignatureTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($signedSignature, $signature->sign($uri));
         $signature = $signature->withTokenSecret($tokenSecret);
         $this->assertSame($signedTokenSecretSignature, $signature->sign($uri));
+        $signature = $signature->withoutTokenSecret();
+        $this->assertSame($signedSignature, $signature->sign($uri));
     }
 }
