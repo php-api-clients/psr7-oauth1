@@ -76,6 +76,9 @@ class RequestSigner
         $clone->accessToken = null;
         $clone->tokenSecret = null;
 
+        $clone->signature = $clone->signature
+            ->withoutTokenSecret();
+
         return $clone;
     }
 
