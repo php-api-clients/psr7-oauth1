@@ -32,7 +32,6 @@ class RequestSigner
      */
     private $tokenSecret;
 
-
     /**
      * @var Signature
      */
