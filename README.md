@@ -50,10 +50,11 @@ use ApiClients\Tools\Psr7\Oauth1\Definition;
 use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
 use ApiClients\Tools\Psr7\Oauth1\Signature\HmacMd5Signature;
 
+$consumerSecret = new Definition\ConsumerSecret('consumer_secret');
 $requestSigner = new RequestSigner(
     new Definition\ConsumerKey('consumer_key'),
-    new Definition\ConsumerSecret('consumer_secret'),
-    new HmacMd5Signature()
+    $consumerSecret,
+    new HmacMd5Signature($consumerSecret)
 );
 ```
 
@@ -68,10 +69,11 @@ use ApiClients\Tools\Psr7\Oauth1\Definition;
 use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
 use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha1Signature;
 
+$consumerSecret = new Definition\ConsumerSecret('consumer_secret');
 $requestSigner = new RequestSigner(
     new Definition\ConsumerKey('consumer_key'),
-    new Definition\ConsumerSecret('consumer_secret'),
-    new HmacSha1Signature()
+    $consumerSecret,
+    new HmacSha1Signature($consumerSecret)
 );
 ```
 
@@ -86,10 +88,11 @@ use ApiClients\Tools\Psr7\Oauth1\Definition;
 use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
 use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha256Signature;
 
+$consumerSecret = new Definition\ConsumerSecret('consumer_secret');
 $requestSigner = new RequestSigner(
     new Definition\ConsumerKey('consumer_key'),
-    new Definition\ConsumerSecret('consumer_secret'),
-    new HmacSha256Signature()
+    $consumerSecret,
+    new HmacSha256Signature($consumerSecret)
 );
 ```
 
@@ -104,10 +107,11 @@ use ApiClients\Tools\Psr7\Oauth1\Definition;
 use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
 use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha384Signature;
 
+$consumerSecret = new Definition\ConsumerSecret('consumer_secret');
 $requestSigner = new RequestSigner(
     new Definition\ConsumerKey('consumer_key'),
-    new Definition\ConsumerSecret('consumer_secret'),
-    new HmacSha384Signature()
+    $consumerSecret,
+    new HmacSha384Signature($consumerSecret)
 );
 ```
 
@@ -122,10 +126,11 @@ use ApiClients\Tools\Psr7\Oauth1\Definition;
 use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
 use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha512Signature;
 
+$consumerSecret = new Definition\ConsumerSecret('consumer_secret');
 $requestSigner = new RequestSigner(
     new Definition\ConsumerKey('consumer_key'),
-    new Definition\ConsumerSecret('consumer_secret'),
-    new HmacSha512Signature()
+    $consumerSecret,
+    new HmacSha512Signature($consumerSecret)
 );
 ```
 
