@@ -2,7 +2,7 @@
 
 namespace ApiClients\Tools\Psr7\Oauth1\Definition;
 
-class TokenSecret
+final class TokenSecret
 {
     /**
      * @var string
