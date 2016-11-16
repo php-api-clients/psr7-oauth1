@@ -32,7 +32,6 @@ class RequestSigner
      */
     private $tokenSecret;
 
-
     /**
      * @var Signature
      */
@@ -75,6 +74,9 @@ class RequestSigner
         $clone = clone $this;
         $clone->accessToken = null;
         $clone->tokenSecret = null;
+
+        $clone->signature = $clone->signature
+            ->withoutTokenSecret();
 
         return $clone;
     }
