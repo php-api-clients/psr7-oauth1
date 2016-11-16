@@ -24,13 +24,12 @@ use ApiClients\Tools\Psr7\Oauth1\Definition;
 use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
 use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha1Signature;
 
-$requestSigner = new RequestSigner(
+// Pass it a PSR-7 request and it returns a signed PSR7 request you can use in any PSR7 capable HTTP client.
+// By default a HMAC-SHA1 signature will be used, this can be changed, see examples below how to do that.
+$request = (new RequestSigner(
     new Definition\ConsumerKey('consumer_key'),
     new Definition\ConsumerSecret('consumer_secret')
-);
-
-// Pass it a PSR-7 request and it returns a signed PSR7 request you can use in any PSR7 capable HTTP client.
-$request = $requestSigner->withAccessToken(
+))->withAccessToken(
     new Definition\AccessToken('token_key'),
     new Definition\TokenSecret('token_secret')
 )->sign($request);
