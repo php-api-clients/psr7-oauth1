@@ -75,6 +75,60 @@ $requestSigner = new RequestSigner(
 );
 ```
 
+## SHA256
+
+Signs request using `HMAC-SHA256`. Usage:
+
+```php
+<?php
+
+use ApiClients\Tools\Psr7\Oauth1\Definition;
+use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
+use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha256Signature;
+
+$requestSigner = new RequestSigner(
+    new Definition\ConsumerKey('consumer_key'),
+    new Definition\ConsumerSecret('consumer_secret'),
+    new HmacSha256Signature()
+);
+```
+
+## SHA384
+
+Signs request using `HMAC-SHA384`. Usage:
+
+```php
+<?php
+
+use ApiClients\Tools\Psr7\Oauth1\Definition;
+use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
+use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha384Signature;
+
+$requestSigner = new RequestSigner(
+    new Definition\ConsumerKey('consumer_key'),
+    new Definition\ConsumerSecret('consumer_secret'),
+    new HmacSha384Signature()
+);
+```
+
+## SHA512
+
+Signs request using `HMAC-SHA512`. Usage:
+
+```php
+<?php
+
+use ApiClients\Tools\Psr7\Oauth1\Definition;
+use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
+use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha512Signature;
+
+$requestSigner = new RequestSigner(
+    new Definition\ConsumerKey('consumer_key'),
+    new Definition\ConsumerSecret('consumer_secret'),
+    new HmacSha512Signature()
+);
+```
+
 # Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
