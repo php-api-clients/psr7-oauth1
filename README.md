@@ -35,6 +35,28 @@ $request = (new RequestSigner(
 )->sign($request);
 ```
 
+# Suppported signatures
+
+All supported signatures are HMAC signatures.
+
+## MD5
+
+Signs request with `HMAC-MD5`. Usage:
+
+```php
+<?php
+
+use ApiClients\Tools\Psr7\Oauth1\Definition;
+use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
+use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha1Signature;
+
+$requestSigner = new RequestSigner(
+    new Definition\ConsumerKey('consumer_key'),
+    new Definition\ConsumerSecret('consumer_secret'),
+    new HmacSha1Signature()
+);
+```
+
 # Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
