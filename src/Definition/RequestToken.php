@@ -10,7 +10,7 @@ final class RequestToken implements Token
     private $requestToken;
 
     /**
-     * @param string $token
+     * @param string $requestToken
      */
     public function __construct($requestToken)
     {

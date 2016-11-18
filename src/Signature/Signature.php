@@ -49,6 +49,9 @@ abstract class Signature
         return $clone;
     }
 
+    /**
+     * @return string
+     */
     protected function getKey()
     {
         $key = rawurlencode((string) $this->consumerSecret).'&';
@@ -60,7 +63,16 @@ abstract class Signature
         return $key;
     }
 
+    /**
+     * @return string
+     */
     abstract public function getMethod();
 
+    /**
+     * @param UriInterface $uri
+     * @param array $parameters
+     * @param string $method
+     * @return string
+     */
     abstract public function sign(UriInterface $uri, array $parameters = [], $method = 'POST');
 }

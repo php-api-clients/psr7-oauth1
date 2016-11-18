@@ -145,6 +145,9 @@ class RequestSigner
         return $parameters;
     }
 
+    /**
+     * @return string
+     */
     private function generateTimestamp()
     {
         $dateTime = new \DateTimeImmutable();
@@ -152,6 +155,10 @@ class RequestSigner
         return $dateTime->format('U');
     }
 
+    /**
+     * @param int $length
+     * @return string
+     */
     private function generateNonce($length = 32)
     {
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -159,6 +166,10 @@ class RequestSigner
         return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
     }
 
+    /**
+     * @param array $parameters
+     * @return string
+     */
     private function generateAuthorizationheader(array $parameters)
     {
         array_walk($parameters, function (&$value, $key) {

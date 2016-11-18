@@ -6,13 +6,25 @@ use Psr\Http\Message\UriInterface;
 
 abstract class HmacSignature extends Signature
 {
+    /**
+     * @return string
+     */
     abstract protected function getHashingAlgorithm();
 
+    /**
+     * @return string
+     */
     public function getMethod()
     {
         return sprintf('HMAC-%s', strtoupper($this->getHashingAlgorithm()));
     }
 
+    /**
+     * @param UriInterface $uri
+     * @param array $parameters
+     * @param string $method
+     * @return string
+     */
     public function sign(UriInterface $uri, array $parameters = [], $method = 'POST')
     {
         $baseString = $this->generateBaseString($uri, $parameters, $method);
@@ -58,6 +70,10 @@ abstract class HmacSignature extends Signature
         return implode('&', $baseString);
     }
 
+    /**
+     * @param $string
+     * @return string
+     */
     private function hash($string)
     {
         return hash_hmac($this->getHashingAlgorithm(), $string, $this->getKey(), true);
