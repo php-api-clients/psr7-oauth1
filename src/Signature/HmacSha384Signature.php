@@ -7,7 +7,7 @@ final class HmacSha384Signature extends HmacSignature
     /**
      * @return string
      */
-    protected function getHashingAlgorithm()
+    protected function getHashingAlgorithm(): string
     {
         return 'sha384';
     }

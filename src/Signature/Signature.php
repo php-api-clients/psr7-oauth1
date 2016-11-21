@@ -28,9 +28,9 @@ abstract class Signature
 
     /**
      * @param TokenSecret $tokenSecret
-     * @return static
+     * @return Signature
      */
-    public function withTokenSecret(TokenSecret $tokenSecret)
+    public function withTokenSecret(TokenSecret $tokenSecret): Signature
     {
         $clone = clone $this;
         $clone->tokenSecret = $tokenSecret;
@@ -39,9 +39,9 @@ abstract class Signature
     }
 
     /**
-     * @return static
+     * @return Signature
      */
-    public function withoutTokenSecret()
+    public function withoutTokenSecret(): Signature
     {
         $clone = clone $this;
         $clone->tokenSecret = null;
@@ -52,7 +52,7 @@ abstract class Signature
     /**
      * @return string
      */
-    protected function getKey()
+    protected function getKey(): string
     {
         $key = rawurlencode((string) $this->consumerSecret).'&';
 
@@ -66,7 +66,7 @@ abstract class Signature
     /**
      * @return string
      */
-    abstract public function getMethod();
+    abstract public function getMethod(): string;
 
     /**
      * @param UriInterface $uri
@@ -74,5 +74,5 @@ abstract class Signature
      * @param string $method
      * @return string
      */
-    abstract public function sign(UriInterface $uri, array $parameters = [], $method = 'POST');
+    abstract public function sign(UriInterface $uri, array $parameters = [], string $method = 'POST'): string;
 }

@@ -9,12 +9,12 @@ abstract class HmacSignature extends Signature
     /**
      * @return string
      */
-    abstract protected function getHashingAlgorithm();
+    abstract protected function getHashingAlgorithm(): string;
 
     /**
      * @return string
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return sprintf('HMAC-%s', strtoupper($this->getHashingAlgorithm()));
     }
@@ -25,7 +25,7 @@ abstract class HmacSignature extends Signature
      * @param string $method
      * @return string
      */
-    public function sign(UriInterface $uri, array $parameters = [], $method = 'POST')
+    public function sign(UriInterface $uri, array $parameters = [], string $method = 'POST'): string
     {
         $baseString = $this->generateBaseString($uri, $parameters, $method);
 
@@ -38,7 +38,7 @@ abstract class HmacSignature extends Signature
      * @param string $method
      * @return string
      */
-    private function generateBaseString(UriInterface $uri, array $parameters = [], $method = 'POST')
+    private function generateBaseString(UriInterface $uri, array $parameters = [], string $method = 'POST'): string
     {
         $baseString = [rawurlencode($method)];
 
@@ -74,7 +74,7 @@ abstract class HmacSignature extends Signature
      * @param $string
      * @return string
      */
-    private function hash($string)
+    private function hash(string $string): string
     {
         return hash_hmac($this->getHashingAlgorithm(), $string, $this->getKey(), true);
     }

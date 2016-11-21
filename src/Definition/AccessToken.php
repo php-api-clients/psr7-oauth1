@@ -20,7 +20,7 @@ final class AccessToken
     /**
      * @return string
      */
-    public function getAccessToken()
+    public function getAccessToken(): string
     {
         return $this->accessToken;
     }
@@ -28,7 +28,7 @@ final class AccessToken
     /**
      * @return string
      */
-    public function getToken()
+    public function getToken(): string
     {
         return (string) $this->accessToken;
     }
@@ -36,7 +36,7 @@ final class AccessToken
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->accessToken;
     }

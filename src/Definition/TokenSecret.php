@@ -20,7 +20,7 @@ final class TokenSecret
     /**
      * @return string
      */
-    public function getTokenSecret()
+    public function getTokenSecret(): string
     {
         return (string) $this->tokenSecret;
     }
@@ -28,7 +28,7 @@ final class TokenSecret
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->tokenSecret;
     }

@@ -15,7 +15,7 @@ class HmacSha256SignatureTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('HMAC-SHA256', (new HmacSha256Signature(new ConsumerSecret('secret')))->getMethod());
     }
 
-    public function provideSign()
+    public function provideSign(): array
     {
         return [
             [
@@ -46,7 +46,7 @@ class HmacSha256SignatureTest extends \PHPUnit_Framework_TestCase
      * @param $signedSignature
      * @dataProvider provideSign
      */
-    public function testSign(UriInterface $uri, $signedSignature, $signedTokenSecretSignature)
+    public function testSign(UriInterface $uri, string $signedSignature, string $signedTokenSecretSignature)
     {
         $secret = new ConsumerSecret('consumerSecret');
         $signature = new HmacSha256Signature($secret);

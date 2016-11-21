@@ -52,9 +52,9 @@ class RequestSigner
     /**
      * @param AccessToken $accessToken
      * @param TokenSecret $tokenSecret
-     * @return static
+     * @return RequestSigner
      */
-    public function withAccessToken(AccessToken $accessToken, TokenSecret $tokenSecret)
+    public function withAccessToken(AccessToken $accessToken, TokenSecret $tokenSecret): RequestSigner
     {
         $clone = clone $this;
         $clone->accessToken = $accessToken;
@@ -67,9 +67,9 @@ class RequestSigner
     }
 
     /**
-     * @return static
+     * @return RequestSigner
      */
-    public function withoutAccessToken()
+    public function withoutAccessToken(): RequestSigner
     {
         $clone = clone $this;
         $clone->accessToken = null;
@@ -85,7 +85,7 @@ class RequestSigner
      * @param RequestInterface $request
      * @return RequestInterface
      */
-    public function sign(RequestInterface $request)
+    public function sign(RequestInterface $request): RequestInterface
     {
         $parameters = [
             'oauth_consumer_key' => (string) $this->consumerKey,
@@ -106,9 +106,9 @@ class RequestSigner
 
     public function signToRequestAuthorization(
         RequestInterface $request,
-        $callbackUri,
+        string $callbackUri,
         array $additionalParameters = []
-    ) {
+    ): RequestInterface {
         $parameters = [
             'oauth_consumer_key' => (string) $this->consumerKey,
             'oauth_nonce' => $this->generateNonce(),
@@ -130,7 +130,7 @@ class RequestSigner
      * @param array $parameters
      * @return array
      */
-    private function mergeSignatureParameter(RequestInterface $request, array $parameters)
+    private function mergeSignatureParameter(RequestInterface $request, array $parameters): array
     {
         $body = [];
         if ($request->getMethod() === 'POST' &&
@@ -148,7 +148,7 @@ class RequestSigner
     /**
      * @return string
      */
-    private function generateTimestamp()
+    private function generateTimestamp(): string
     {
         $dateTime = new \DateTimeImmutable();
 
@@ -159,7 +159,7 @@ class RequestSigner
      * @param int $length
      * @return string
      */
-    private function generateNonce($length = 32)
+    private function generateNonce(int $length = 32): string
     {
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
@@ -170,7 +170,7 @@ class RequestSigner
      * @param array $parameters
      * @return string
      */
-    private function generateAuthorizationheader(array $parameters)
+    private function generateAuthorizationheader(array $parameters): string
     {
         array_walk($parameters, function (&$value, $key) {
             $value = rawurlencode($key).'="'.rawurlencode($value).'"';

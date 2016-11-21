@@ -7,7 +7,7 @@ final class HmacSha512Signature extends HmacSignature
     /**
      * @return string
      */
-    protected function getHashingAlgorithm()
+    protected function getHashingAlgorithm(): string
     {
         return 'sha512';
     }

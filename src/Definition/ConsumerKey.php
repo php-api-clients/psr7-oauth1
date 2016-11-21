@@ -20,7 +20,7 @@ final class ConsumerKey
     /**
      * @return string
      */
-    public function getConsumerKey()
+    public function getConsumerKey(): string
     {
         return (string) $this->consumerKey;
     }
@@ -28,7 +28,7 @@ final class ConsumerKey
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->consumerKey;
     }
