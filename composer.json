@@ -45,7 +45,7 @@
         ],
         "unit": [
             "@ensure-installed",
-            "phpunit --colors=always -c phpunit.xml.dist --coverage-text --coverage-html covHtml"
+            "phpunit --colors=always -c phpunit.xml.dist --coverage-text --coverage-html covHtml --coverage-clover ./build/logs/clover.xml"
         ],
         "mutation": [
             "@ensure-installed",
