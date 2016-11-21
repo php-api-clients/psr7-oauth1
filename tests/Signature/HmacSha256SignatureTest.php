@@ -15,29 +15,30 @@ class HmacSha256SignatureTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('HMAC-SHA256', (new HmacSha256Signature(new ConsumerSecret('secret')))->getMethod());
     }
 
-    public function provideSign(): array
+    public function provideSign(): \Generator
     {
-        return [
-            [
-                new Uri('https://example.com/'),
-                'x0e2N4wRpr2UB+rX8mwnY01tp6fnXT5SE36kAvbdSYo=',
-                'ovXZ33UaQylAO8L8Ad1f/TwLU1YBXEygau34O7sDSw0=',
-            ],
-            [
-                new Uri('https://example.com/thea.pot',[], 'THEAPOT'),
-                'u5nNam6Cn+fCko38qAgxWUYmRrPPTF5OFOC9wZ4LHRg=',
-                '8IQ1uD3ZR+b8U0Fd++pGGzqNmKiF94z3psbsa+M0SxQ=',
-            ],
-            [
-                new Uri('https://example.com/?foo=bar', ['foo' => 'bar',]),
-                'SlDm7qfJO/mxl1Ewnewj46jjbuCEKYGNTeew2uMDwPM=',
-                '5vVeCSAcL52LVGWWQ1pUFUe7cpVwkhreMQMck3PEw+E=',
-            ],
-            [
-                new Uri('https://example.com/',['foo' => 'bar',], 'HEAD'),
-                'x0e2N4wRpr2UB+rX8mwnY01tp6fnXT5SE36kAvbdSYo=',
-                'ovXZ33UaQylAO8L8Ad1f/TwLU1YBXEygau34O7sDSw0=',
-            ],
+        yield [
+            new Uri('https://example.com/'),
+            'x0e2N4wRpr2UB+rX8mwnY01tp6fnXT5SE36kAvbdSYo=',
+            'ovXZ33UaQylAO8L8Ad1f/TwLU1YBXEygau34O7sDSw0=',
+        ];
+
+        yield [
+            new Uri('https://example.com/thea.pot',[], 'THEAPOT'),
+            'u5nNam6Cn+fCko38qAgxWUYmRrPPTF5OFOC9wZ4LHRg=',
+            '8IQ1uD3ZR+b8U0Fd++pGGzqNmKiF94z3psbsa+M0SxQ=',
+        ];
+
+        yield [
+            new Uri('https://example.com/?foo=bar', ['foo' => 'bar',]),
+            'SlDm7qfJO/mxl1Ewnewj46jjbuCEKYGNTeew2uMDwPM=',
+            '5vVeCSAcL52LVGWWQ1pUFUe7cpVwkhreMQMck3PEw+E=',
+        ];
+
+        yield [
+            new Uri('https://example.com/',['foo' => 'bar',], 'HEAD'),
+            'x0e2N4wRpr2UB+rX8mwnY01tp6fnXT5SE36kAvbdSYo=',
+            'ovXZ33UaQylAO8L8Ad1f/TwLU1YBXEygau34O7sDSw0=',
         ];
     }
 

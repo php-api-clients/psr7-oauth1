@@ -15,29 +15,30 @@ class HmacMd5SignatureTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('HMAC-MD5', (new HmacMd5Signature(new ConsumerSecret('secret')))->getMethod());
     }
 
-    public function provideSign(): array
+    public function provideSign(): \Generator
     {
-        return [
-            [
-                new Uri('https://example.com/'),
-                'QtfAAcCdkSRT7ZcsOf0ZMg==',
-                'tgO8fZPz5fYTvT2fooRbVw==',
-            ],
-            [
-                new Uri('https://example.com/thea.pot',[], 'THEAPOT'),
-                '+ABQ6tWjft6x4qEWj2242A==',
-                '/z1LDvLoyrM2/2UNr1vMfg==',
-            ],
-            [
-                new Uri('https://example.com/?foo=bar', ['foo' => 'bar',]),
-                'a1zvAGr9rNs+zbSnA4eAqQ==',
-                'yVkadb1I3VWMaCpqp5ucYw==',
-            ],
-            [
-                new Uri('https://example.com/',['foo' => 'bar',], 'HEAD'),
-                'QtfAAcCdkSRT7ZcsOf0ZMg==',
-                'tgO8fZPz5fYTvT2fooRbVw==',
-            ],
+        yield [
+            new Uri('https://example.com/'),
+            'QtfAAcCdkSRT7ZcsOf0ZMg==',
+            'tgO8fZPz5fYTvT2fooRbVw==',
+        ];
+
+        yield [
+            new Uri('https://example.com/thea.pot',[], 'THEAPOT'),
+            '+ABQ6tWjft6x4qEWj2242A==',
+            '/z1LDvLoyrM2/2UNr1vMfg==',
+        ];
+
+        yield [
+            new Uri('https://example.com/?foo=bar', ['foo' => 'bar',]),
+            'a1zvAGr9rNs+zbSnA4eAqQ==',
+            'yVkadb1I3VWMaCpqp5ucYw==',
+        ];
+
+        yield [
+            new Uri('https://example.com/',['foo' => 'bar',], 'HEAD'),
+            'QtfAAcCdkSRT7ZcsOf0ZMg==',
+            'tgO8fZPz5fYTvT2fooRbVw==',
         ];
     }
 
