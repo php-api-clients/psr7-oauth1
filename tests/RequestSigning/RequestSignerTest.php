@@ -7,6 +7,7 @@ use ApiClients\Tools\Psr7\Oauth1\Definition\ConsumerKey;
 use ApiClients\Tools\Psr7\Oauth1\Definition\ConsumerSecret;
 use ApiClients\Tools\Psr7\Oauth1\Definition\TokenSecret;
 use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
+use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha1Signature;
 use GuzzleHttp\Psr7\Request;
 
 class RequestSignerTest extends \PHPUnit_Framework_TestCase
@@ -39,12 +40,22 @@ class RequestSignerTest extends \PHPUnit_Framework_TestCase
             'oauth_token' => false,
             'oauth_signature' => false,
         ];
+        $captureValues = [
+            'oauth_consumer_key' => '',
+            'oauth_nonce' => '',
+            'oauth_signature_method' => '',
+            'oauth_timestamp' => '',
+            'oauth_version' => '',
+            'oauth_token' => '',
+            'oauth_signature' => '',
+        ];
         $request = new Request(
             'POST',
             'httpx://example.com/',
             [
                 'Content-Type' => 'application/x-www-form-urlencoded',
-            ]
+            ],
+            'foo=bar'
         );
         $requestSigner = (new RequestSigner(
             new ConsumerKey('consumer_key'),
@@ -67,6 +78,9 @@ class RequestSignerTest extends \PHPUnit_Framework_TestCase
         foreach ($headerChunks as $headerChunk) {
             list($key, $value) = explode('=', $headerChunk);
             $this->assertTrue(isset($expectedHeaderParts[$key]));
+            if (isset($captureValues[$key])) {
+                $captureValues[$key] = rawurldecode(str_replace('"', '', $value));
+            }
             $expectedHeaderParts[$key] = true;
         }
 
@@ -74,6 +88,22 @@ class RequestSignerTest extends \PHPUnit_Framework_TestCase
             $this->assertInternalType('bool', $expectedHeaderPart);
             $this->assertTrue($expectedHeaderPart);
         }
+
+        $signature = $captureValues['oauth_signature'];
+        unset($captureValues['oauth_signature']);
+
+        $this->assertSame(
+            (new HmacSha1Signature(
+                new ConsumerSecret('consumer_secret')
+            ))->withTokenSecret(
+                new TokenSecret('token_secret')
+            )->sign(
+                $request->getUri(),
+                array_merge(['foo' => 'bar'], $captureValues),
+                'POST'
+            ),
+            $signature
+        );
     }
 
     public function testSignToRequestAuthorization()
@@ -88,12 +118,20 @@ class RequestSignerTest extends \PHPUnit_Framework_TestCase
             'oauth_callback' => false,
             'oauth_signature' => false,
         ];
+        $captureValues = [
+            'oauth_consumer_key' => '',
+            'oauth_nonce' => '',
+            'oauth_signature_method' => '',
+            'oauth_timestamp' => '',
+            'oauth_version' => '',
+            'oauth_callback' => '',
+            'oauth_signature' => '',
+        ];
         $request = new Request(
             'POST',
             'httpx://example.com/',
-            [
-                'Content-Type' => 'application/x-www-form-urlencoded',
-            ]
+            [],
+            'foo=bar'
         );
         $requestSigner = new RequestSigner(
             new ConsumerKey('consumer_key'),
@@ -113,6 +151,9 @@ class RequestSignerTest extends \PHPUnit_Framework_TestCase
         foreach ($headerChunks as $headerChunk) {
             list($key, $value) = explode('=', $headerChunk);
             $this->assertTrue(isset($expectedHeaderParts[$key]));
+            if (isset($captureValues[$key])) {
+                $captureValues[$key] = rawurldecode(str_replace('"', '', $value));
+            }
             $expectedHeaderParts[$key] = true;
         }
 
@@ -120,5 +161,19 @@ class RequestSignerTest extends \PHPUnit_Framework_TestCase
             $this->assertInternalType('bool', $expectedHeaderPart);
             $this->assertTrue($expectedHeaderPart);
         }
+
+        $signature = $captureValues['oauth_signature'];
+        unset($captureValues['oauth_signature']);
+
+        $this->assertSame(
+            (new HmacSha1Signature(
+                new ConsumerSecret('consumer_secret')
+            ))->sign(
+                $request->getUri(),
+                $captureValues,
+                'POST'
+            ),
+            $signature
+        );
     }
 }
