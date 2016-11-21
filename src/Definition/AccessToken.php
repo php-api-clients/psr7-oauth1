@@ -2,7 +2,7 @@
 
 namespace ApiClients\Tools\Psr7\Oauth1\Definition;
 
-final class AccessToken implements Token
+final class AccessToken
 {
     /**
      * @var string
