@@ -15,6 +15,12 @@ To install via [Composer](http://getcomposer.org/), use the command below, it wi
 composer require api-clients/psr7-oauth1 
 ```
 
+In case you want to support both PHP `7.0+` and `5.5+` in your package, we suggest you use the following command:
+
+```bash
+composer require "api-clients/psr7-oauth1:^2.0 || ^1.0" 
+```
+
 # Example
 
 ```php
