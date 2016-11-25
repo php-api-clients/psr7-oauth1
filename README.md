@@ -21,7 +21,7 @@ In case you need to support `5.5+` as well in your package, we suggest you use t
 composer require api-clients/psr7-oauth1:^1.0
 ```
 
-However since `1.0` and `2.0` of this package are 100% compatible, we reccomned you use the following command to support both:
+However since `1.0` and `2.0` of this package are 100% compatible, we recommend you use the following command to support both:
 
 ```bash
 composer require "api-clients/psr7-oauth1:^2.0 || ^1.0" 
