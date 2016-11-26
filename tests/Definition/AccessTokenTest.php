@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ApiClients\Tests\Tools\Psr7\Oauth1\Definition;
 

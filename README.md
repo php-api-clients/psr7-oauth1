@@ -1,4 +1,4 @@
-# Client-side PSR-7 Oauth1 request signer
+# Client-side PSR-7 Oauth1 request signer for PHP `^7.0`
 
 [![Build Status](https://travis-ci.org/php-api-clients/psr7-oauth1.svg?branch=master)](https://travis-ci.org/php-api-clients/psr7-oauth1)
 [![Latest Stable Version](https://poser.pugx.org/api-clients/psr7-oauth1/v/stable.png)](https://packagist.org/packages/api-clients/psr7-oauth1)
@@ -13,6 +13,18 @@ To install via [Composer](http://getcomposer.org/), use the command below, it wi
 
 ```bash
 composer require api-clients/psr7-oauth1 
+```
+
+In case you need to support `5.5+` as well in your package, we suggest you use the following command:
+
+```bash
+composer require api-clients/psr7-oauth1:^1.0
+```
+
+However since `1.0` and `2.0` of this package are 100% compatible, we recommend you use the following command to support both:
+
+```bash
+composer require "api-clients/psr7-oauth1:^2.0 || ^1.0" 
 ```
 
 # Example

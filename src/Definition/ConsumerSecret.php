@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ApiClients\Tools\Psr7\Oauth1\Definition;
 
@@ -20,7 +20,7 @@ final class ConsumerSecret
     /**
      * @return string
      */
-    public function getConsumerSecret()
+    public function getConsumerSecret(): string
     {
         return (string) $this->consumerSecret;
     }
@@ -28,7 +28,7 @@ final class ConsumerSecret
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->consumerSecret;
     }

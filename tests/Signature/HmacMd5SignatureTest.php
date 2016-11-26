@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ApiClients\Tests\Tools\Psr7\Oauth1\Signature;
 
@@ -15,29 +15,30 @@ class HmacMd5SignatureTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('HMAC-MD5', (new HmacMd5Signature(new ConsumerSecret('secret')))->getMethod());
     }
 
-    public function provideSign()
+    public function provideSign(): \Generator
     {
-        return [
-            [
-                new Uri('https://example.com/'),
-                'QtfAAcCdkSRT7ZcsOf0ZMg==',
-                'tgO8fZPz5fYTvT2fooRbVw==',
-            ],
-            [
-                new Uri('https://example.com/thea.pot',[], 'THEAPOT'),
-                '+ABQ6tWjft6x4qEWj2242A==',
-                '/z1LDvLoyrM2/2UNr1vMfg==',
-            ],
-            [
-                new Uri('https://example.com/?foo=bar', ['foo' => 'bar',]),
-                'a1zvAGr9rNs+zbSnA4eAqQ==',
-                'yVkadb1I3VWMaCpqp5ucYw==',
-            ],
-            [
-                new Uri('https://example.com/',['foo' => 'bar',], 'HEAD'),
-                'QtfAAcCdkSRT7ZcsOf0ZMg==',
-                'tgO8fZPz5fYTvT2fooRbVw==',
-            ],
+        yield [
+            new Uri('https://example.com/'),
+            'QtfAAcCdkSRT7ZcsOf0ZMg==',
+            'tgO8fZPz5fYTvT2fooRbVw==',
+        ];
+
+        yield [
+            new Uri('https://example.com/thea.pot',[], 'THEAPOT'),
+            '+ABQ6tWjft6x4qEWj2242A==',
+            '/z1LDvLoyrM2/2UNr1vMfg==',
+        ];
+
+        yield [
+            new Uri('https://example.com/?foo=bar', ['foo' => 'bar',]),
+            'a1zvAGr9rNs+zbSnA4eAqQ==',
+            'yVkadb1I3VWMaCpqp5ucYw==',
+        ];
+
+        yield [
+            new Uri('https://example.com/',['foo' => 'bar',], 'HEAD'),
+            'QtfAAcCdkSRT7ZcsOf0ZMg==',
+            'tgO8fZPz5fYTvT2fooRbVw==',
         ];
     }
 
@@ -46,7 +47,7 @@ class HmacMd5SignatureTest extends \PHPUnit_Framework_TestCase
      * @param $signedSignature
      * @dataProvider provideSign
      */
-    public function testSign(UriInterface $uri, $signedSignature, $signedTokenSecretSignature)
+    public function testSign(UriInterface $uri, string $signedSignature, string $signedTokenSecretSignature)
     {
         $secret = new ConsumerSecret('consumerSecret');
         $signature = new HmacMd5Signature($secret);

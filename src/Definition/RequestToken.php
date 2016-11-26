@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace ApiClients\Tools\Psr7\Oauth1\Definition;
 
@@ -20,7 +20,7 @@ final class RequestToken
     /**
      * @return string
      */
-    public function getRequestToken()
+    public function getRequestToken(): string
     {
         return $this->requestToken;
     }
@@ -28,7 +28,7 @@ final class RequestToken
     /**
      * @return string
      */
-    public function getToken()
+    public function getToken(): string
     {
         return (string) $this->requestToken;
     }
@@ -36,7 +36,7 @@ final class RequestToken
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return (string) $this->requestToken;
     }
