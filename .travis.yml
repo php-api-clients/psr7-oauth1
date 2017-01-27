@@ -34,6 +34,10 @@ matrix:
   allow_failures:
     - php: hhvm
 
+before_install:
+  # Force hhvm PHP 7 mode
+  - if [[ $TRAVIS_PHP_VERSION = hhv* ]]; then echo hhvm.php7.all=1 >> /etc/hhvm/php.ini; fi
+
 ## Install or update dependencies
 install:
   #- composer validate
