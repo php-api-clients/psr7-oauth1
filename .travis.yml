@@ -6,6 +6,12 @@ cache:
   directories:
     - $HOME/.composer/cache/files
 
+-## PHP versions we test against for current composer dependancies
+ -php:
+ -  - 7.0
+ -  - 7.1
+ -  - nightly
+
 ## Build matrix for PHP versions we test against with lowest and highest possible targets
 matrix:
   include:
@@ -31,6 +37,10 @@ matrix:
       dist: trusty
       group: edge # until the next major travis stable update
       env: dependencies=highest
+    - php: hhvm
+      sudo: true
+      dist: trusty
+      group: edge # until the next major travis stable update
   allow_failures:
     - php: hhvm
 
