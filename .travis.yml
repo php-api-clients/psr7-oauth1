@@ -6,41 +6,35 @@ cache:
   directories:
     - $HOME/.composer/cache/files
 
--## PHP versions we test against for current composer dependancies
- -php:
- -  - 7.0
- -  - 7.1
- -  - nightly
+ ## PHP versions we test against for current composer dependancies
+php:
+  - 7.0
+  - 7.1
+  - nightly
+## environment variables, one build is created for each
+env:
+  - dependencies=lowest
+  - dependencies=current
+  - dependencies=highest
 
 ## Build matrix for PHP versions we test against with lowest and highest possible targets
 matrix:
   include:
-    - php: 7.0
-      env: dependencies=lowest
-    - php: 7.1
-      env: dependencies=lowest
-    - php: nightly
-      env: dependencies=lowest
     - php: hhvm
       sudo: true
       dist: trusty
       group: edge # until the next major travis stable update
       env: dependencies=lowest
-    - php: 7.0
-      env: dependencies=highest
-    - php: 7.1
-      env: dependencies=highest
-    - php: nightly
-      env: dependencies=highest
+    - php: hhvm
+      sudo: true
+      dist: trusty
+      group: edge # until the next major travis stable update
+      env: dependencies=current
     - php: hhvm
       sudo: true
       dist: trusty
       group: edge # until the next major travis stable update
       env: dependencies=highest
-    - php: hhvm
-      sudo: true
-      dist: trusty
-      group: edge # until the next major travis stable update
   allow_failures:
     - php: hhvm
 
