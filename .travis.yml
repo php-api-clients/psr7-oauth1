@@ -6,40 +6,47 @@ cache:
   directories:
     - $HOME/.composer/cache/files
 
-## PHP versions we test against
+ ## PHP versions we test against for current composer dependancies
 php:
   - 7.0
   - 7.1
   - nightly
-  - hhvm
+## environment variables, one build is created for each
+env:
+  - dependencies=lowest
+  - dependencies=current
+  - dependencies=highest
 
-## Build matrix for lowest and highest possible targets
+## Build matrix for PHP versions we test against with lowest and highest possible targets
 matrix:
   include:
-    - php: 7.0
-      env: dependencies=lowest
-    - php: 7.1
-      env: dependencies=lowest
-    - php: nightly
+    - php: hhvm
+      sudo: true
+      dist: trusty
+      group: edge # until the next major travis stable update
       env: dependencies=lowest
     - php: hhvm
-      env: dependencies=lowest
-    - php: 7.0
-      env: dependencies=highest
-    - php: 7.1
-      env: dependencies=highest
-    - php: nightly
-      env: dependencies=highest
+      sudo: true
+      dist: trusty
+      group: edge # until the next major travis stable update
+      env: dependencies=current
     - php: hhvm
+      sudo: true
+      dist: trusty
+      group: edge # until the next major travis stable update
       env: dependencies=highest
   allow_failures:
     - php: hhvm
+
+before_install:
+  # Force hhvm PHP 7 mode
+  - if [[ $TRAVIS_PHP_VERSION = hhv* ]]; then echo hhvm.php7.all=1 >> /etc/hhvm/php.ini; fi
 
 ## Install or update dependencies
 install:
   #- composer validate
   - composer config --unset platform.php
-  - if [ -z "$dependencies" ]; then composer install --prefer-dist; fi;
+  - if [ "$dependencies" = "current" ]; then composer install --prefer-dist; fi;
   - if [ "$dependencies" = "lowest" ]; then composer update --prefer-lowest --prefer-dist -n; fi;
   - if [ "$dependencies" = "highest" ]; then composer update --prefer-dist -n; fi;
   - composer show

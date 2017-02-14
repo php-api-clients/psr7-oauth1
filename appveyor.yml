@@ -12,7 +12,7 @@ environment:
   - dependencies: highest
     php_ver_target: 7.0
   - dependencies: highest
-    php_ver_target: 7.0
+    php_ver_target: 7.1
 
 ## Cache composer bits
 cache:
