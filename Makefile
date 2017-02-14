@@ -16,8 +16,5 @@ cs:
 unit:
 	composer unit
 
-mutation:
-	composer mutation
-
 ci-coverage: init
 	composer ci-coverage

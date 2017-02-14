@@ -3,14 +3,15 @@
 namespace ApiClients\Tests\Tools\Psr7\Oauth1\Definition;
 
 use ApiClients\Tools\Psr7\Oauth1\Definition\ConsumerSecret;
+use PHPUnit\Framework\TestCase;
 
-class ConsumerSecretTest extends \PHPUnit_Framework_TestCase
+class ConsumerSecretTest extends TestCase
 {
     public function testAccessToken()
     {
         $key = 'key';
         $consumerSecret = new ConsumerSecret($key);
-        $this->assertSame($key, $consumerSecret->getConsumerSecret());
-        $this->assertSame($key, (string)$consumerSecret);
+        self::assertSame($key, $consumerSecret->getConsumerSecret());
+        self::assertSame($key, (string)$consumerSecret);
     }
 }

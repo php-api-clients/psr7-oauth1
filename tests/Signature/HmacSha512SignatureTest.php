@@ -6,13 +6,14 @@ use ApiClients\Tools\Psr7\Oauth1\Definition\ConsumerSecret;
 use ApiClients\Tools\Psr7\Oauth1\Definition\TokenSecret;
 use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha512Signature;
 use GuzzleHttp\Psr7\Uri;
+use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\UriInterface;
 
-class HmacSha512SignatureTest extends \PHPUnit_Framework_TestCase
+class HmacSha512SignatureTest extends TestCase
 {
     public function testGetMethod()
     {
-        $this->assertSame('HMAC-SHA512', (new HmacSha512Signature(new ConsumerSecret('secret')))->getMethod());
+        self::assertSame('HMAC-SHA512', (new HmacSha512Signature(new ConsumerSecret('secret')))->getMethod());
     }
 
     public function provideSign(): \Generator
@@ -52,10 +53,10 @@ class HmacSha512SignatureTest extends \PHPUnit_Framework_TestCase
         $secret = new ConsumerSecret('consumerSecret');
         $signature = new HmacSha512Signature($secret);
         $tokenSecret = new TokenSecret('tokenSecret');
-        $this->assertSame($signedSignature, $signature->sign($uri));
+        self::assertSame($signedSignature, $signature->sign($uri));
         $signature = $signature->withTokenSecret($tokenSecret);
-        $this->assertSame($signedTokenSecretSignature, $signature->sign($uri));
+        self::assertSame($signedTokenSecretSignature, $signature->sign($uri));
         $signature = $signature->withoutTokenSecret();
-        $this->assertSame($signedSignature, $signature->sign($uri));
+        self::assertSame($signedSignature, $signature->sign($uri));
     }
 }
