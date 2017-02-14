@@ -9,8 +9,9 @@ use ApiClients\Tools\Psr7\Oauth1\Definition\TokenSecret;
 use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
 use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha1Signature;
 use GuzzleHttp\Psr7\Request;
+use PHPUnit\Framework\TestCase;
 
-class RequestSignerTest extends \PHPUnit_Framework_TestCase
+class RequestSignerTest extends TestCase
 {
     public function testImmutability()
     {
@@ -22,11 +23,11 @@ class RequestSignerTest extends \PHPUnit_Framework_TestCase
             new AccessToken('access_token'),
             new TokenSecret('token_secret')
         );
-        $this->assertNotSame($requestSigner, $requestSignerWithAccessToken);
+        self::assertNotSame($requestSigner, $requestSignerWithAccessToken);
         $requestSignerWithAccessTokenWithoutAccessToken = $requestSignerWithAccessToken->withoutAccessToken();
-        $this->assertNotSame($requestSigner, $requestSignerWithAccessTokenWithoutAccessToken);
-        $this->assertNotSame($requestSignerWithAccessToken, $requestSignerWithAccessTokenWithoutAccessToken);
-        $this->assertEquals($requestSigner, $requestSignerWithAccessTokenWithoutAccessToken);
+        self::assertNotSame($requestSigner, $requestSignerWithAccessTokenWithoutAccessToken);
+        self::assertNotSame($requestSignerWithAccessToken, $requestSignerWithAccessTokenWithoutAccessToken);
+        self::assertEquals($requestSigner, $requestSignerWithAccessTokenWithoutAccessToken);
     }
 
     public function testSign()
@@ -67,17 +68,17 @@ class RequestSignerTest extends \PHPUnit_Framework_TestCase
 
         $signedRequest = $requestSigner->sign($request);
 
-        $this->assertNotSame($request, $signedRequest);
-        $this->assertTrue($signedRequest->hasHeader('Authorization'));
+        self::assertNotSame($request, $signedRequest);
+        self::assertTrue($signedRequest->hasHeader('Authorization'));
         $headerChunks = explode(' ', current($signedRequest->getHeader('Authorization')));
-        $this->assertCount(2, $headerChunks);
-        $this->assertSame('OAuth', $headerChunks[0]);
+        self::assertCount(2, $headerChunks);
+        self::assertSame('OAuth', $headerChunks[0]);
 
         $headerChunks = explode(',', $headerChunks[1]);
-        $this->assertCount(count($expectedHeaderParts), $headerChunks);
+        self::assertCount(count($expectedHeaderParts), $headerChunks);
         foreach ($headerChunks as $headerChunk) {
             list($key, $value) = explode('=', $headerChunk);
-            $this->assertTrue(isset($expectedHeaderParts[$key]));
+            self::assertTrue(isset($expectedHeaderParts[$key]));
             if (isset($captureValues[$key])) {
                 $captureValues[$key] = rawurldecode(str_replace('"', '', $value));
             }
@@ -85,14 +86,14 @@ class RequestSignerTest extends \PHPUnit_Framework_TestCase
         }
 
         foreach ($expectedHeaderParts as $expectedHeaderPart) {
-            $this->assertInternalType('bool', $expectedHeaderPart);
-            $this->assertTrue($expectedHeaderPart);
+            self::assertInternalType('bool', $expectedHeaderPart);
+            self::assertTrue($expectedHeaderPart);
         }
 
         $signature = $captureValues['oauth_signature'];
         unset($captureValues['oauth_signature']);
 
-        $this->assertSame(
+        self::assertSame(
             (new HmacSha1Signature(
                 new ConsumerSecret('consumer_secret')
             ))->withTokenSecret(
@@ -140,17 +141,17 @@ class RequestSignerTest extends \PHPUnit_Framework_TestCase
 
         $signedRequest = $requestSigner->signToRequestAuthorization($request, $callbackUri);
 
-        $this->assertNotSame($request, $signedRequest);
-        $this->assertTrue($signedRequest->hasHeader('Authorization'));
+        self::assertNotSame($request, $signedRequest);
+        self::assertTrue($signedRequest->hasHeader('Authorization'));
         $headerChunks = explode(' ', current($signedRequest->getHeader('Authorization')));
-        $this->assertCount(2, $headerChunks);
-        $this->assertSame('OAuth', $headerChunks[0]);
+        self::assertCount(2, $headerChunks);
+        self::assertSame('OAuth', $headerChunks[0]);
 
         $headerChunks = explode(',', $headerChunks[1]);
-        $this->assertCount(count($expectedHeaderParts), $headerChunks);
+        self::assertCount(count($expectedHeaderParts), $headerChunks);
         foreach ($headerChunks as $headerChunk) {
             list($key, $value) = explode('=', $headerChunk);
-            $this->assertTrue(isset($expectedHeaderParts[$key]));
+            self::assertTrue(isset($expectedHeaderParts[$key]));
             if (isset($captureValues[$key])) {
                 $captureValues[$key] = rawurldecode(str_replace('"', '', $value));
             }
@@ -158,14 +159,14 @@ class RequestSignerTest extends \PHPUnit_Framework_TestCase
         }
 
         foreach ($expectedHeaderParts as $expectedHeaderPart) {
-            $this->assertInternalType('bool', $expectedHeaderPart);
-            $this->assertTrue($expectedHeaderPart);
+            self::assertInternalType('bool', $expectedHeaderPart);
+            self::assertTrue($expectedHeaderPart);
         }
 
         $signature = $captureValues['oauth_signature'];
         unset($captureValues['oauth_signature']);
 
-        $this->assertSame(
+        self::assertSame(
             (new HmacSha1Signature(
                 new ConsumerSecret('consumer_secret')
             ))->sign(
