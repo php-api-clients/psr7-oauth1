@@ -1,5 +1,6 @@
 language: php
 sudo: false
+dist: trusty
 
 ## Cache composer bits
 cache:
@@ -11,6 +12,7 @@ php:
   - 7.0
   - 7.1
   - nightly
+  - hhvm
 ## environment variables, one build is created for each
 env:
   - dependencies=lowest
@@ -19,22 +21,7 @@ env:
 
 ## Build matrix for PHP versions we test against with lowest and highest possible targets
 matrix:
-  include:
-    - php: hhvm
-      sudo: true
-      dist: trusty
-      group: edge # until the next major travis stable update
-      env: dependencies=lowest
-    - php: hhvm
-      sudo: true
-      dist: trusty
-      group: edge # until the next major travis stable update
-      env: dependencies=current
-    - php: hhvm
-      sudo: true
-      dist: trusty
-      group: edge # until the next major travis stable update
-      env: dependencies=highest
+  fast_finish: true
   allow_failures:
     - php: hhvm
 
