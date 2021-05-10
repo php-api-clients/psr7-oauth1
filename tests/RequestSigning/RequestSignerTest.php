@@ -86,7 +86,7 @@ class RequestSignerTest extends TestCase
         }
 
         foreach ($expectedHeaderParts as $expectedHeaderPart) {
-            self::assertInternalType('bool', $expectedHeaderPart);
+            self::assertIsBool($expectedHeaderPart);
             self::assertTrue($expectedHeaderPart);
         }
 
@@ -159,7 +159,7 @@ class RequestSignerTest extends TestCase
         }
 
         foreach ($expectedHeaderParts as $expectedHeaderPart) {
-            self::assertInternalType('bool', $expectedHeaderPart);
+            self::assertIsBool($expectedHeaderPart);
             self::assertTrue($expectedHeaderPart);
         }
 
