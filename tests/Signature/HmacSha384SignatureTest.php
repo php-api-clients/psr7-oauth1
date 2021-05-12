@@ -1,62 +1,62 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ApiClients\Tests\Tools\Psr7\Oauth1\Signature;
 
 use ApiClients\Tools\Psr7\Oauth1\Definition\ConsumerSecret;
-use ApiClients\Tools\Psr7\Oauth1\Definition\TokenSecret;
 use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha384Signature;
+use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSignature;
 use GuzzleHttp\Psr7\Uri;
-use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\UriInterface;
 
-class HmacSha384SignatureTest extends TestCase
+final class HmacSha384SignatureTest extends AbstractHmacSignatureTest
 {
-    public function testGetMethod()
+    public function testGetMethod(): void
     {
         self::assertSame('HMAC-SHA384', (new HmacSha384Signature(new ConsumerSecret('secret')))->getMethod());
     }
 
-    public function provideSign(): \Generator
+    /**
+     * @return iterable<array<UriInterface|string|array>>
+     */
+    public function provideSign(): iterable
     {
         yield [
             new Uri('https://example.com/'),
+            [],
+            'POST',
             'JgaK+ORQ+mkdItwZUJgNI15mgIYHgcqEUIbp6qDbEhYrwwsrOrNxK+cgMMmY0/A7',
             '0Eib7qzwodDV6L4UYTOWS9G3UYPOvZCByUn02wrMMV0vNbNLGGFnA8IxnW6v1ZYN',
         ];
 
         yield [
-            new Uri('https://example.com/thea.pot',[], 'THEAPOT'),
-            'Bm+fK6fVlejPvOcrQJcv+ZwsgQdh9W3Ok/ljmY39vy0MxymzH+I+Hntcxi90/Qfq',
-            'mjT2JRgSTEdrMJi6/eJ6mZBh7C2bWT9HVqS1Gq6JpXJHNPze7gy7XdA4sgy3ORwE',
+            new Uri('https://example.com/thea.pot'),
+            [],
+            'THEAPOT',
+            '4oJ9u7upxsArNUv/5C9dZv/eJeZdv8OSjPJa8B4Oc8Klc9fXacRNBBOK3hm0sIc0',
+            'N95UKNiyD1Usy0yZD37bjJXInNoDry7A29IltBhINrL2CxBdEpE/m1tvSJSyU+Bn',
         ];
 
         yield [
-            new Uri('https://example.com/?foo=bar', ['foo' => 'bar',]),
-            '+88Vdw/72CKTOJpUM42FZLkQnBakun9M9lKVzk8a9T9TpmK9Sn6MP4hp7id/VJRj',
-            'FKV3k1/PDOZTwMO6fE74NisTlixs1qlLt5IedDWVoIyk9tyNNAUIjwOt7w1GtnHH',
+            new Uri('https://example.com/?foo=bar'),
+            ['bar' => 'beer'],
+            'POST',
+            'MXOJsgv11V0L8gsizK4kaR0pfZywXmcXzkwF/zma7do6fNUjUMhJgv4ZDRzFEACe',
+            '+lOwMyE32LVHAnnIUrrGlScMqw07+Ab5cJjfluSvhXpI8CXqqS/zxvEjSFNaYSOu',
         ];
 
         yield [
-            new Uri('https://example.com/',['foo' => 'bar',], 'HEAD'),
-            'JgaK+ORQ+mkdItwZUJgNI15mgIYHgcqEUIbp6qDbEhYrwwsrOrNxK+cgMMmY0/A7',
-            '0Eib7qzwodDV6L4UYTOWS9G3UYPOvZCByUn02wrMMV0vNbNLGGFnA8IxnW6v1ZYN',
+            new Uri('https://example.com/'),
+            ['foo' => 'bar'],
+            'HEAD',
+            'YVnY5nX+FQKUWVJySsxX8uLqtLAtnGflkny7BB0txjQQ4B//i461KQY9D3MLoyOE',
+            'CGSZQdDMhlNgdY/p5Gnfkd4oDDT4dM1X1e9M50SvpPz5ABEzGWAZOXKsIwHFrCJ0',
         ];
     }
 
-    /**
-     * @param UriInterface $uri
-     * @param $signedSignature
-     * @dataProvider provideSign
-     */
-    public function testSign(UriInterface $uri, string $signedSignature, string $signedTokenSecretSignature)
+    public function createSignature(ConsumerSecret $secret): HmacSignature
     {
-        $secret = new ConsumerSecret('consumerSecret');
-        $signature = new HmacSha384Signature($secret);
-        $tokenSecret = new TokenSecret('tokenSecret');
-        self::assertSame($signedSignature, $signature->sign($uri));
-        $signature = $signature->withTokenSecret($tokenSecret);
-        self::assertSame($signedTokenSecretSignature, $signature->sign($uri));
-        $signature = $signature->withoutTokenSecret();
-        self::assertSame($signedSignature, $signature->sign($uri));
+        return new HmacSha384Signature($secret);
     }
 }

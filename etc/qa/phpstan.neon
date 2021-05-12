@@ -1,0 +1,10 @@
+parameters:
+	ergebnis:
+		classesAllowedToBeExtended:
+			- Exception
+			- ApiClients\Tools\Psr7\Oauth1\Signature\HmacSignature
+			- ApiClients\Tools\Psr7\Oauth1\Signature\Signature
+			- ApiClients\Tests\Tools\Psr7\Oauth1\Signature\AbstractHmacSignatureTest
+
+includes:
+	- ../../vendor/wyrihaximus/async-test-utilities/rules.neon
