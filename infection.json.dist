@@ -1,0 +1,28 @@
+{
+    "timeout": 120,
+    "source": {
+        "directories": [
+            "src"
+        ]
+    },
+    "logs": {
+        "text": "./var/infection.log",
+        "summary": "./var/infection-summary.log",
+        "json": "./var/infection.json",
+        "perMutator": "./var/infection-per-mutator.md"
+    },
+    "mutators": {
+        "@default": true,
+        "InstanceOf_": {
+            "ignore": [
+                "ApiClients\\Tools\\Psr7\\Oauth1\\RequestSigning\\RequestSigner::sign",
+                "ApiClients\\Tools\\Psr7\\Oauth1\\Signature\\Signature::getKey"
+            ]
+        },
+        "UnwrapStrRepeat": false,
+        "UnwrapStrShuffle": false
+    },
+    "phpUnit": {
+        "configDir": "./etc/qa/"
+    }
+}

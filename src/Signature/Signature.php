@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ApiClients\Tools\Psr7\Oauth1\Signature;
 
@@ -6,73 +8,50 @@ use ApiClients\Tools\Psr7\Oauth1\Definition\ConsumerSecret;
 use ApiClients\Tools\Psr7\Oauth1\Definition\TokenSecret;
 use Psr\Http\Message\UriInterface;
 
+use function rawurlencode;
+
 abstract class Signature
 {
-    /**
-     * @var ConsumerSecret
-     */
-    private $consumerSecret;
+    private ConsumerSecret $consumerSecret;
 
-    /**
-     * @var TokenSecret
-     */
-    private $tokenSecret;
+    private ?TokenSecret $tokenSecret = null;
 
-    /**
-     * @param ConsumerSecret $consumerSecret
-     */
-    public function __construct(ConsumerSecret $consumerSecret)
+    final public function __construct(ConsumerSecret $consumerSecret)
     {
         $this->consumerSecret = $consumerSecret;
     }
 
-    /**
-     * @param TokenSecret $tokenSecret
-     * @return Signature
-     */
-    public function withTokenSecret(TokenSecret $tokenSecret): Signature
+    final public function withTokenSecret(TokenSecret $tokenSecret): Signature
     {
-        $clone = clone $this;
+        $clone              = clone $this;
         $clone->tokenSecret = $tokenSecret;
 
         return $clone;
     }
 
-    /**
-     * @return Signature
-     */
-    public function withoutTokenSecret(): Signature
+    final public function withoutTokenSecret(): Signature
     {
-        $clone = clone $this;
+        $clone              = clone $this;
         $clone->tokenSecret = null;
 
         return $clone;
     }
 
-    /**
-     * @return string
-     */
-    protected function getKey(): string
+    final protected function getKey(): string
     {
-        $key = rawurlencode((string) $this->consumerSecret).'&';
+        $key = rawurlencode((string) $this->consumerSecret) . '&';
 
-        if ($this->tokenSecret) {
+        if ($this->tokenSecret instanceof TokenSecret) {
             $key .= rawurlencode((string) $this->tokenSecret);
         }
 
         return $key;
     }
 
-    /**
-     * @return string
-     */
     abstract public function getMethod(): string;
 
     /**
-     * @param UriInterface $uri
-     * @param array $parameters
-     * @param string $method
-     * @return string
+     * @param array<string, string> $parameters
      */
     abstract public function sign(UriInterface $uri, array $parameters = [], string $method = 'POST'): string;
 }

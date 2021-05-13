@@ -1,31 +1,35 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ApiClients\Tools\Psr7\Oauth1\Signature;
 
 use Psr\Http\Message\UriInterface;
 
+use function array_merge;
+use function array_walk;
+use function base64_encode;
+use function hash_hmac;
+use function implode;
+use function parse_str;
+use function rawurlencode;
+use function Safe\ksort;
+use function Safe\sprintf;
+use function strtoupper;
+
 abstract class HmacSignature extends Signature
 {
-    /**
-     * @return string
-     */
     abstract protected function getHashingAlgorithm(): string;
 
-    /**
-     * @return string
-     */
-    public function getMethod(): string
+    final public function getMethod(): string
     {
         return sprintf('HMAC-%s', strtoupper($this->getHashingAlgorithm()));
     }
 
     /**
-     * @param UriInterface $uri
-     * @param array $parameters
-     * @param string $method
-     * @return string
+     * @param array<string, string> $parameters
      */
-    public function sign(UriInterface $uri, array $parameters = [], string $method = 'POST'): string
+    final public function sign(UriInterface $uri, array $parameters = [], string $method = 'POST'): string
     {
         $baseString = $this->generateBaseString($uri, $parameters, $method);
 
@@ -33,21 +37,18 @@ abstract class HmacSignature extends Signature
     }
 
     /**
-     * @param UriInterface $uri
-     * @param array $parameters
-     * @param string $method
-     * @return string
+     * @param array<string, string|int> $parameters
      */
     private function generateBaseString(UriInterface $uri, array $parameters = [], string $method = 'POST'): string
     {
         $baseString = [rawurlencode($method)];
 
         $scheme = $uri->getScheme();
-        $host = $uri->getHost();
-        $path = $uri->getPath();
-        $port = $uri->getPort();
+        $host   = $uri->getHost();
+        $path   = $uri->getPath();
+        $port   = $uri->getPort();
 
-        $baseString[] = rawurlencode(is_null($port)
+        $baseString[] = rawurlencode($port === null
             ? sprintf('%s://%s%s', $scheme, $host, $path)
             : sprintf('%s://%s:%d%s', $scheme, $host, $port, $path));
 
@@ -61,8 +62,8 @@ abstract class HmacSignature extends Signature
 
         ksort($data);
 
-        array_walk($data, function (&$value, $key) {
-            $value = $key.'='.$value;
+        array_walk($data, static function (string &$value, string $key): void {
+            $value = $key . '=' . $value;
         });
 
         $baseString[] = rawurlencode(implode('&', $data));
@@ -70,10 +71,6 @@ abstract class HmacSignature extends Signature
         return implode('&', $baseString);
     }
 
-    /**
-     * @param $string
-     * @return string
-     */
     private function hash(string $string): string
     {
         return hash_hmac($this->getHashingAlgorithm(), $string, $this->getKey(), true);

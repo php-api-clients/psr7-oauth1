@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ApiClients\Tools\Psr7\Oauth1\RequestSigning;
 
@@ -9,82 +11,56 @@ use ApiClients\Tools\Psr7\Oauth1\Definition\TokenSecret;
 use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha1Signature;
 use ApiClients\Tools\Psr7\Oauth1\Signature\Signature;
 use Psr\Http\Message\RequestInterface;
+use Safe\DateTimeImmutable;
 
-class RequestSigner
+use function array_merge;
+use function array_walk;
+use function implode;
+use function parse_str;
+use function rawurlencode;
+use function Safe\substr;
+use function str_repeat;
+use function str_shuffle;
+
+final class RequestSigner
 {
-    /**
-     * @var ConsumerKey
-     */
-    private $consumerKey;
+    private const NONCE_REPLICATION    = 10;
+    private const START                = 0;
+    private const DEFAULT_NONCE_LENGTH = 32;
+
+    private ConsumerKey $consumerKey;
+
+    private ?AccessToken $accessToken = null;
+
+    private Signature $signature;
 
     /**
-     * @var ConsumerSecret
+     * @phpstan-ignore-next-line
      */
-    private $consumerSecret;
-
-    /**
-     * @var AccessToken
-     */
-    private $accessToken;
-
-    /**
-     * @var TokenSecret
-     */
-    private $tokenSecret;
-
-    /**
-     * @var Signature
-     */
-    private $signature;
-
-    /**
-     * @param ConsumerKey $consumerKey
-     * @param ConsumerSecret $consumerSecret
-     * @param Signature $signature
-     */
-    public function __construct(ConsumerKey $consumerKey, ConsumerSecret $consumerSecret, Signature $signature = null)
+    public function __construct(ConsumerKey $consumerKey, ConsumerSecret $consumerSecret, ?Signature $signature = null)
     {
         $this->consumerKey = $consumerKey;
-        $this->consumerSecret = $consumerSecret;
-        $this->signature = $signature ?: new HmacSha1Signature($consumerSecret);
+        $this->signature   = $signature ?? new HmacSha1Signature($consumerSecret);
     }
 
-    /**
-     * @param AccessToken $accessToken
-     * @param TokenSecret $tokenSecret
-     * @return RequestSigner
-     */
     public function withAccessToken(AccessToken $accessToken, TokenSecret $tokenSecret): RequestSigner
     {
-        $clone = clone $this;
+        $clone              = clone $this;
         $clone->accessToken = $accessToken;
-        $clone->tokenSecret = $tokenSecret;
-
-        $clone->signature = $clone->signature
-            ->withTokenSecret($tokenSecret);
+        $clone->signature   = $clone->signature->withTokenSecret($tokenSecret);
 
         return $clone;
     }
 
-    /**
-     * @return RequestSigner
-     */
     public function withoutAccessToken(): RequestSigner
     {
-        $clone = clone $this;
+        $clone              = clone $this;
         $clone->accessToken = null;
-        $clone->tokenSecret = null;
-
-        $clone->signature = $clone->signature
-            ->withoutTokenSecret();
+        $clone->signature   = $clone->signature->withoutTokenSecret();
 
         return $clone;
     }
 
-    /**
-     * @param RequestInterface $request
-     * @return RequestInterface
-     */
     public function sign(RequestInterface $request): RequestInterface
     {
         $parameters = [
@@ -95,7 +71,7 @@ class RequestSigner
             'oauth_version' => '1.0',
         ];
 
-        if ($this->accessToken) {
+        if ($this->accessToken instanceof AccessToken) {
             $parameters['oauth_token'] = (string) $this->accessToken;
         }
 
@@ -104,6 +80,9 @@ class RequestSigner
         return $request->withHeader('Authorization', $this->generateAuthorizationheader($parameters));
     }
 
+    /**
+     * @param array<string, mixed> $additionalParameters
+     */
     public function signToRequestAuthorization(
         RequestInterface $request,
         string $callbackUri,
@@ -126,15 +105,17 @@ class RequestSigner
     }
 
     /**
-     * @param RequestInterface $request
-     * @param array $parameters
-     * @return array
+     * @param array<string, string> $parameters
+     *
+     * @return array<string, mixed>
      */
     private function mergeSignatureParameter(RequestInterface $request, array $parameters): array
     {
         $body = [];
-        if ($request->getMethod() === 'POST' &&
-            $request->getHeaderLine('Content-Type') === 'application/x-www-form-urlencoded') {
+        if (
+            $request->getMethod() === 'POST' &&
+            $request->getHeaderLine('Content-Type') === 'application/x-www-form-urlencoded'
+        ) {
             parse_str((string) $request->getBody(), $body);
         }
 
@@ -145,37 +126,29 @@ class RequestSigner
         return $parameters;
     }
 
-    /**
-     * @return string
-     */
     private function generateTimestamp(): string
     {
-        $dateTime = new \DateTimeImmutable();
+        $dateTime = new DateTimeImmutable();
 
         return $dateTime->format('U');
     }
 
-    /**
-     * @param int $length
-     * @return string
-     */
-    private function generateNonce(int $length = 32): string
+    private function generateNonce(int $length = self::DEFAULT_NONCE_LENGTH): string
     {
         $pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-        return substr(str_shuffle(str_repeat($pool, 5)), 0, $length);
+        return substr(str_shuffle(str_repeat($pool, self::NONCE_REPLICATION)), self::START, $length);
     }
 
     /**
-     * @param array $parameters
-     * @return string
+     * @param array<string, mixed> $parameters
      */
     private function generateAuthorizationheader(array $parameters): string
     {
-        array_walk($parameters, function (&$value, $key) {
-            $value = rawurlencode($key).'="'.rawurlencode($value).'"';
+        array_walk($parameters, static function (string &$value, string $key): void {
+            $value = rawurlencode($key) . '="' . rawurlencode($value) . '"';
         });
 
-        return 'OAuth '.implode(',', $parameters);
+        return 'OAuth ' . implode(',', $parameters);
     }
 }

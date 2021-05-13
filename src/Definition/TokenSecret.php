@@ -1,35 +1,25 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace ApiClients\Tools\Psr7\Oauth1\Definition;
 
 final class TokenSecret
 {
-    /**
-     * @var string
-     */
-    private $tokenSecret;
+    private string $tokenSecret;
 
-    /**
-     * @param string $tokenSecret
-     */
-    public function __construct($tokenSecret)
+    public function __construct(string $tokenSecret)
     {
         $this->tokenSecret = $tokenSecret;
     }
 
-    /**
-     * @return string
-     */
     public function getTokenSecret(): string
     {
-        return (string) $this->tokenSecret;
+        return $this->tokenSecret;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
-        return (string) $this->tokenSecret;
+        return $this->tokenSecret;
     }
 }
