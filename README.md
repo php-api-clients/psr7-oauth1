@@ -1,18 +1,17 @@
-# Client-side PSR-7 Oauth1 request signer for PHP `^7.0`
+# Client-side PSR-7 Oauth1 request signer for PHP `^8 || ^7.4`
 
-[![Build Status](https://travis-ci.org/php-api-clients/psr7-oauth1.svg?branch=master)](https://travis-ci.org/php-api-clients/psr7-oauth1)
+[![Continuous Integration](https://github.com/php-api-clients/psr7-oauth1/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/php-api-clients/psr7-oauth1/actions/workflows/ci.yml)
 [![Latest Stable Version](https://poser.pugx.org/api-clients/psr7-oauth1/v/stable.png)](https://packagist.org/packages/api-clients/psr7-oauth1)
 [![Total Downloads](https://poser.pugx.org/api-clients/psr7-oauth1/downloads.png)](https://packagist.org/packages/api-clients/psr7-oauth1/stats)
 [![Code Coverage](https://scrutinizer-ci.com/g/php-api-clients/psr7-oauth1/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/php-api-clients/psr7-oauth1/?branch=master)
 [![License](https://poser.pugx.org/api-clients/psr7-oauth1/license.png)](https://packagist.org/packages/api-clients/psr7-oauth1)
-[![PHP 7 ready](http://php7ready.timesplinter.ch/php-api-clients/psr7-oauth1/badge.svg)](https://appveyor-ci.org/php-api-clients/psr7-oauth1)
 
 # Installation
 
 To install via [Composer](http://getcomposer.org/), use the command below, it will automatically detect the latest version and bind it with `^`.
 
 ```bash
-composer require api-clients/psr7-oauth1 
+composer require api-clients/psr7-oauth1
 ```
 
 In case you need to support `5.5+` as well in your package, we suggest you use the following command:
@@ -21,10 +20,10 @@ In case you need to support `5.5+` as well in your package, we suggest you use t
 composer require api-clients/psr7-oauth1:^1.0
 ```
 
-However since `1.0` and `2.0` of this package are 100% compatible, we recommend you use the following command to support both:
+However, since `1.0`, `2.0`,  and `3.0` of this package are 100% compatible, we recommend you use the following command to support both:
 
 ```bash
-composer require "api-clients/psr7-oauth1:^2.0 || ^1.0" 
+composer require "api-clients/psr7-oauth1:^2.0 || ^1.0"
 ```
 
 # Example
@@ -34,7 +33,6 @@ composer require "api-clients/psr7-oauth1:^2.0 || ^1.0"
 
 use ApiClients\Tools\Psr7\Oauth1\Definition;
 use ApiClients\Tools\Psr7\Oauth1\RequestSigning\RequestSigner;
-use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha1Signature;
 
 // Pass it a PSR-7 request and it returns a signed PSR7 request you can use in any PSR7 capable HTTP client.
 // By default a HMAC-SHA1 signature will be used, this can be changed, see examples below how to do that.
@@ -154,7 +152,7 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 The MIT License (MIT)
 
-Copyright (c) 2016 Cees-Jan Kiewiet & Beau Simensen
+Copyright (c) 2021 Cees-Jan Kiewiet & Beau Simensen
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
