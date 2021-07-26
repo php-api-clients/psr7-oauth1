@@ -20,7 +20,7 @@
     },
     "require-dev": {
         "guzzlehttp/psr7": "^1.8.2 || ^2.0.0",
-        "wyrihaximus/async-test-utilities": "^3.4.24"
+        "wyrihaximus/async-test-utilities": "^3.4.24 || ^4.0.0"
     },
     "config": {
         "platform": {
