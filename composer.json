@@ -20,13 +20,7 @@
     },
     "require-dev": {
         "guzzlehttp/psr7": "^1.8.2 || ^2.0.0",
-        "wyrihaximus/async-test-utilities": "^3.4.24 || ^4.0.0"
-    },
-    "config": {
-        "platform": {
-            "php": "7.4.7"
-        },
-        "sort-packages": true
+        "wyrihaximus/async-test-utilities": "^3.4.24 || ^4.1.0"
     },
     "autoload": {
         "psr-4": {
@@ -37,6 +31,19 @@
         "psr-4": {
             "ApiClients\\Tests\\Tools\\Psr7\\Oauth1\\": "tests/"
         }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "composer/package-versions-deprecated": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "icanhazstring/composer-unused": true,
+            "infection/extension-installer": true
+        },
+        "platform": {
+            "php": "7.4.7"
+        },
+        "sort-packages": true
     },
     "scripts": {
         "post-install-cmd": [
