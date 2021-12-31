@@ -13,7 +13,7 @@ use Psr\Http\Message\UriInterface;
 abstract class AbstractHmacSignatureTest extends TestCase
 {
     /**
-     * @return iterable<array<UriInterface|string|array>>
+     * @return iterable<array<mixed>>
      */
     abstract public function provideSign(): iterable;
 
