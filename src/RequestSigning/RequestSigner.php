@@ -14,10 +14,9 @@ use Psr\Http\Message\RequestInterface;
 use Safe\DateTimeImmutable;
 
 use function array_merge;
-use function array_walk;
-use function implode;
 use function parse_str;
 use function rawurlencode;
+use function rtrim;
 use function Safe\substr;
 use function str_repeat;
 use function str_shuffle;
@@ -77,11 +76,11 @@ final class RequestSigner
 
         $parameters = $this->mergeSignatureParameter($request, $parameters);
 
-        return $request->withHeader('Authorization', $this->generateAuthorizationheader($parameters));
+        return $request->withHeader('Authorization', $this->generateAuthorizationHeader($parameters));
     }
 
     /**
-     * @param array<string, mixed> $additionalParameters
+     * @param array<string, string> $additionalParameters
      */
     public function signToRequestAuthorization(
         RequestInterface $request,
@@ -101,13 +100,13 @@ final class RequestSigner
 
         $parameters = $this->mergeSignatureParameter($request, $parameters);
 
-        return $request->withHeader('Authorization', $this->generateAuthorizationheader($parameters));
+        return $request->withHeader('Authorization', $this->generateAuthorizationHeader($parameters));
     }
 
     /**
      * @param array<string, string> $parameters
      *
-     * @return array<string, mixed>
+     * @return array<string, string>
      */
     private function mergeSignatureParameter(RequestInterface $request, array $parameters): array
     {
@@ -141,14 +140,15 @@ final class RequestSigner
     }
 
     /**
-     * @param array<string, mixed> $parameters
+     * @param array<string, string> $parameters
      */
-    private function generateAuthorizationheader(array $parameters): string
+    private function generateAuthorizationHeader(array $parameters): string
     {
-        array_walk($parameters, static function (string &$value, string $key): void {
-            $value = rawurlencode($key) . '="' . rawurlencode($value) . '"';
-        });
+        $header = 'OAuth ';
+        foreach ($parameters as $key => $value) {
+            $header .= rawurlencode($key) . '="' . rawurlencode($value) . '",';
+        }
 
-        return 'OAuth ' . implode(',', $parameters);
+        return rtrim($header, ',');
     }
 }

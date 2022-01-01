@@ -8,7 +8,6 @@ use ApiClients\Tools\Psr7\Oauth1\Definition\ConsumerSecret;
 use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSha1Signature;
 use ApiClients\Tools\Psr7\Oauth1\Signature\HmacSignature;
 use GuzzleHttp\Psr7\Uri;
-use Psr\Http\Message\UriInterface;
 
 final class HmacSha1SignatureTest extends AbstractHmacSignatureTest
 {
@@ -18,7 +17,7 @@ final class HmacSha1SignatureTest extends AbstractHmacSignatureTest
     }
 
     /**
-     * @return iterable<array<UriInterface|string|array>>
+     * @return iterable<array<mixed>>
      */
     public function provideSign(): iterable
     {

@@ -124,6 +124,7 @@ jobs:
         with:
           php-version: ${{ matrix.php }}
           coverage: xdebug, pcov
+          extensions: intl, sodium
       - name: Cache composer packages
         uses: actions/cache@v1
         with:
