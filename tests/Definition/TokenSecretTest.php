@@ -13,7 +13,8 @@ final class TokenSecretTest extends TestCase
     {
         $token       = 'tokenSecret';
         $tokenSecret = new TokenSecret($token);
-        self::assertSame($token, $tokenSecret->getTokenSecret());
+        self::assertSame($token, $tokenSecret->getTokenSecret()); /** @phpstan-ignore-line */
+        self::assertSame($token, $tokenSecret->tokenSecret);
         self::assertSame($token, (string) $tokenSecret);
     }
 }

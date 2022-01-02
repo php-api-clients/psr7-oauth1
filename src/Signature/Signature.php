@@ -12,13 +12,10 @@ use function rawurlencode;
 
 abstract class Signature
 {
-    private ConsumerSecret $consumerSecret;
-
     private ?TokenSecret $tokenSecret = null;
 
-    final public function __construct(ConsumerSecret $consumerSecret)
+    final public function __construct(private ConsumerSecret $consumerSecret)
     {
-        $this->consumerSecret = $consumerSecret;
     }
 
     final public function withTokenSecret(TokenSecret $tokenSecret): Signature
