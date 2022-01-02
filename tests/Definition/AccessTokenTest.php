@@ -13,8 +13,9 @@ final class AccessTokenTest extends TestCase
     {
         $token       = 'token';
         $accessToken = new AccessToken($token);
-        self::assertSame($token, $accessToken->getAccessToken());
-        self::assertSame($token, $accessToken->getToken());
+        self::assertSame($token, $accessToken->getAccessToken()); /** @phpstan-ignore-line */
+        self::assertSame($token, $accessToken->getToken()); /** @phpstan-ignore-line */
+        self::assertSame($token, $accessToken->accessToken);
         self::assertSame($token, (string) $accessToken);
     }
 }

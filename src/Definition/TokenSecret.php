@@ -6,13 +6,13 @@ namespace ApiClients\Tools\Psr7\Oauth1\Definition;
 
 final class TokenSecret
 {
-    private string $tokenSecret;
-
-    public function __construct(string $tokenSecret)
+    public function __construct(public readonly string $tokenSecret)
     {
-        $this->tokenSecret = $tokenSecret;
     }
 
+    /**
+     * @deprecated Use tokenSecret property
+     */
     public function getTokenSecret(): string
     {
         return $this->tokenSecret;

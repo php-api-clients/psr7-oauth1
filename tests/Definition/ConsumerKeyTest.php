@@ -13,7 +13,8 @@ final class ConsumerKeyTest extends TestCase
     {
         $key         = 'key';
         $consumerKey = new ConsumerKey($key);
-        self::assertSame($key, $consumerKey->getConsumerKey());
+        self::assertSame($key, $consumerKey->getConsumerKey()); /** @phpstan-ignore-line */
+        self::assertSame($key, $consumerKey->consumerKey);
         self::assertSame($key, (string) $consumerKey);
     }
 }

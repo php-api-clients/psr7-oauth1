@@ -27,8 +27,6 @@ final class RequestSigner
     private const START                = 0;
     private const DEFAULT_NONCE_LENGTH = 32;
 
-    private ConsumerKey $consumerKey;
-
     private ?AccessToken $accessToken = null;
 
     private Signature $signature;
@@ -36,10 +34,9 @@ final class RequestSigner
     /**
      * @phpstan-ignore-next-line
      */
-    public function __construct(ConsumerKey $consumerKey, ConsumerSecret $consumerSecret, ?Signature $signature = null)
+    public function __construct(private ConsumerKey $consumerKey, ConsumerSecret $consumerSecret, ?Signature $signature = null)
     {
-        $this->consumerKey = $consumerKey;
-        $this->signature   = $signature ?? new HmacSha1Signature($consumerSecret);
+        $this->signature = $signature ?? new HmacSha1Signature($consumerSecret);
     }
 
     public function withAccessToken(AccessToken $accessToken, TokenSecret $tokenSecret): RequestSigner

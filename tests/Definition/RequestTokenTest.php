@@ -13,8 +13,9 @@ final class RequestTokenTest extends TestCase
     {
         $token        = 'token';
         $requestToken = new RequestToken($token);
-        self::assertSame($token, $requestToken->getRequestToken());
-        self::assertSame($token, $requestToken->getToken());
+        self::assertSame($token, $requestToken->getRequestToken()); /** @phpstan-ignore-line */
+        self::assertSame($token, $requestToken->getToken()); /** @phpstan-ignore-line */
+        self::assertSame($token, $requestToken->requestToken);
         self::assertSame($token, (string) $requestToken);
     }
 }

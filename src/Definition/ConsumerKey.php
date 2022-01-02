@@ -6,13 +6,13 @@ namespace ApiClients\Tools\Psr7\Oauth1\Definition;
 
 final class ConsumerKey
 {
-    private string $consumerKey;
-
-    public function __construct(string $consumerKey)
+    public function __construct(public readonly string $consumerKey)
     {
-        $this->consumerKey = $consumerKey;
     }
 
+    /**
+     * @deprecated Use consumerKey property
+     */
     public function getConsumerKey(): string
     {
         return $this->consumerKey;

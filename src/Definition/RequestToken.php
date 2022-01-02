@@ -6,18 +6,21 @@ namespace ApiClients\Tools\Psr7\Oauth1\Definition;
 
 final class RequestToken
 {
-    private string $requestToken;
-
-    public function __construct(string $requestToken)
+    public function __construct(public readonly string $requestToken)
     {
-        $this->requestToken = $requestToken;
     }
 
+    /**
+     * @deprecated Use requestToken property
+     */
     public function getRequestToken(): string
     {
         return $this->requestToken;
     }
 
+    /**
+     * @deprecated Use requestToken property
+     */
     public function getToken(): string
     {
         return $this->requestToken;
